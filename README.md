@@ -1,61 +1,91 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+Hello everyone! 👋
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+This is a testing project built on **Laravel 12** with a **MySQL** database, fully containerized using **Docker** via **Laravel Sail**. It integrates **Laravel Scout** with the **Typesense** driver for lightning-fast full-text search and is seeded with **1,000,000** Product records to showcase high-throughput indexing and querying.  
+On the frontend, we use **jQuery** to render and search the product list, and—for simplicity—our `/products` route returns a Blade view directly instead of going through a conventional controller.  
+Feel free to clone, explore the Docker setup, and see how Scout + Typesense performs at scale!
 
-## About Laravel
+Some installing steps:
+1.	Install & Configure Sail
+    a.	Require Sail (if you haven’t already):
+        composer require laravel/sail --dev
+        php artisan sail:install
+    b.	php artisan sail:install --with=mysql,redis,typesense
+2.	Publish & Customize the Dockerfile (Optional)
+    a.	php artisan sail:publish
+3.	Environment Variables & Startup
+    SCOUT_DRIVER=typesense
+    TYPESENSE_HOST=typesense
+    TYPESENSE_PORT=8108
+    TYPESENSE_PROTOCOL=http
+    TYPESENSE_API_KEY=masterKey
+4.	Install docker
+    a.	Download from https://docker.com and install
+    b.	Check and verify by open terminal and run: docker –version
+    c.	Once Docker is running, navigate back to your project and re-run:
+        ./vendor/bin/sail up -d
+5.	Clear and rebuild your containers by running:
+        ./vendor/bin/sail down
+        ./vendor/bin/sail up -d –build
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+6.	Verify Typesense
+    curl -H "X-TYPESENSE-API-KEY: masterKey" http://localhost:8108/health
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+7.	Proceed with Scout & Typesense Setup
+    a.	Add Searchable trait to your models
+    b.	Run php artisan scout:import "App\\Models\\Product"
+    c.	Test a search:
+        $results = App\Models\Product::search('shirt')->get();
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+8.	Cast Your Model’s ID to a String
+    use Laravel\Scout\Searchable;
 
-## Learning Laravel
+    class Product extends Model
+    {
+        use Searchable;
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+        /**
+        * Ensure Scout uses a string ID.
+        */
+        public function getScoutKey(): string
+        {
+            return (string) $this->getKey();
+        }
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+        /**
+        * Prepare the data array for indexing.
+        */
+        public function toSearchableArray(): array
+        {
+            $array = $this->toArray();
+            $array['id'] = (string) $this->getKey();
+            // Cast or add any other fields as needed...
+            return $array;
+        }
+    }
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+9.	Correct Your Typesense Schema in config/scout.php
+    Under model-settings → App\Models\Product, define id as type string (or omit it entirely—Typesense will auto-handle id as a string):
+    php
+    CopyEdit
+    'model-settings' => [
+        App\Models\Product::class => [
+            'collection-schema' => [
+                'name' => 'products',
+                'fields' => [
+                    ['name' => 'id',   'type' => 'string'],      // ← must be string
+                    ['name' => 'name', 'type' => 'string'],
+                    ['name' => 'description', 'type' => 'string'],
+                ],
+                'default_sorting_field' => 'name',
+            ],
+            'search-parameters' => [
+                'query_by' => 'name,description',
+            ],
+        ],
+    ],
 
-## Laravel Sponsors
+10.	Flush and Reimport Your Index
+    php artisan config:clear
+    php artisan scout:flush "App\\Models\\Product"
+    php artisan scout:import "App\\Models\\Product"
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
-
-### Premium Partners
-
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development/)**
-- **[Active Logic](https://activelogic.com)**
-
-## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
