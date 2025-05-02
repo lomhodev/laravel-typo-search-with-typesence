@@ -7,23 +7,28 @@ Feel free to clone, explore the Docker setup, and see how Scout + Typesense perf
 Some installing steps:
 1.	Install & Configure Sail
     a. Require Sail (if you haven’t already):
+
         ```bash
         composer require laravel/sail --dev
         php artisan sail:install
         ```
 
     b. Install Sail with the required services:
+
         ```bash
         php artisan sail:install --with=mysql,redis,typesense
         ```
+
 2.	Publish & Customize the Dockerfile (Optional)
     a. Publish Sail's Docker configuration files to customize them:
+
         ```bash
         php artisan sail:publish
         ```
+
 3.	Environment Variables & Startup
-    ```markdown
     4. Set up environment variables in your `.env` file:
+
         ```env
         SCOUT_DRIVER=typesense
         TYPESENSE_HOST=typesense
@@ -35,30 +40,39 @@ Some installing steps:
     5. Install Docker:
         a. Download Docker from [https://docker.com](https://docker.com) and install it.
         b. Verify the installation by running the following command in your terminal:
+        
             ```bash
             docker --version
             ```
+
         c. Once Docker is installed and running, navigate to your project directory and start the containers:
+
             ```bash
             ./vendor/bin/sail up -d
             ```
-    ```
+
     a.	Download from https://docker.com and install
     b.	Check and verify by opening a terminal and running the following command to ensure Docker is installed correctly:
+
         ```bash
         docker --version
         ```
+
     c.	Once Docker is running, navigate back to your project and re-run:
+
         ```bash
         ./vendor/bin/sail up -d
         ```
+
 5.	Clear and rebuild your containers by running:
+
         ```bash
         ./vendor/bin/sail down
         ./vendor/bin/sail up -d --build
         ```
 
-6.	Verify Typesense
+6.	Verify Typesense:
+
     ```bash
     curl -H "X-TYPESENSE-API-KEY: masterKey" http://localhost:8108/health
     ```
@@ -78,7 +92,9 @@ Some installing steps:
         ```bash
         php artisan scout:import "App\Models\Product"
         ```
+
     c.	Test a search:
+
         ```php
         $results = App\Models\Product::search('shirt')->get();
 
