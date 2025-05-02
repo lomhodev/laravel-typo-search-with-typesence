@@ -10,8 +10,8 @@ Feel free to clone, explore the Docker setup, and see how Scout + Typesense perf
 To get started, clone this repository to your local machine:
 
 ```bash
-git clone https://github.com/your-username/laravel-with-typesense.git
-cd laravel-with-typesense
+git clone https://github.com/lomhodev/laravel-typo-search-with-typesence.git
+cd laravel-typo-search-with-typesence
 ```
 
 ### Install Laravel Dependencies
@@ -24,11 +24,30 @@ composer install
 ### Generate Application Key
 After installing dependencies, generate the application key:
 
+Next, copy the `.env.example` file to create your `.env` file:
+
+### Run Migration 
+To run the database migrations and seed the database with sample data, execute the following commands:
+
 ```bash
-php artisan key:generate
+php artisan migrate
+php artisan db:seed
 ```
 
-Below are steps that I have done for this project.:
+This will create the necessary database tables and populate them with 1,000,000 Product records for testing.
+
+### Run seeding 
+To seed the database with additional data, run the following command:
+
+```bash
+    php artisan db:seed 
+```
+
+This will execute the `ProductSeeder` class, which is responsible for populating the database with sample product data.
+
+-----------------------------------------------------------
+
+### Below are steps that I did for this project.:
 1.	Install & Configure Sail
     a. Require Sail (if you haven’t already):
 
