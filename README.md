@@ -82,6 +82,7 @@ Under model-settings → App\Models\Product, define id as type string (or omit i
         ],
     ],
 ],
+
 Aligning your schema’s id field with Typesense’s requirement avoids the malformed-request error
 
 10.	Flush and Reimport Your Index
