@@ -6,37 +6,89 @@ Feel free to clone, explore the Docker setup, and see how Scout + Typesense perf
 
 Some installing steps:
 1.	Install & Configure Sail
-    a.	Require Sail (if you haven’t already):
+    a. Require Sail (if you haven’t already):
+        ```bash
         composer require laravel/sail --dev
         php artisan sail:install
-    b.	php artisan sail:install --with=mysql,redis,typesense
+        ```
+
+    b. Install Sail with the required services:
+        ```bash
+        php artisan sail:install --with=mysql,redis,typesense
+        ```
 2.	Publish & Customize the Dockerfile (Optional)
-    a.	php artisan sail:publish
+    a. Publish Sail's Docker configuration files to customize them:
+        ```bash
+        php artisan sail:publish
+        ```
 3.	Environment Variables & Startup
-    SCOUT_DRIVER=typesense
-    TYPESENSE_HOST=typesense
-    TYPESENSE_PORT=8108
-    TYPESENSE_PROTOCOL=http
-    TYPESENSE_API_KEY=masterKey
-4.	Install docker
+    ```markdown
+    4. Set up environment variables in your `.env` file:
+        ```env
+        SCOUT_DRIVER=typesense
+        TYPESENSE_HOST=typesense
+        TYPESENSE_PORT=8108
+        TYPESENSE_PROTOCOL=http
+        TYPESENSE_API_KEY=masterKey
+        ```
+
+    5. Install Docker:
+        a. Download Docker from [https://docker.com](https://docker.com) and install it.
+        b. Verify the installation by running the following command in your terminal:
+            ```bash
+            docker --version
+            ```
+        c. Once Docker is installed and running, navigate to your project directory and start the containers:
+            ```bash
+            ./vendor/bin/sail up -d
+            ```
+    ```
     a.	Download from https://docker.com and install
-    b.	Check and verify by open terminal and run: docker –version
+    b.	Check and verify by opening a terminal and running the following command to ensure Docker is installed correctly:
+        ```bash
+        docker --version
+        ```
     c.	Once Docker is running, navigate back to your project and re-run:
+        ```bash
         ./vendor/bin/sail up -d
+        ```
 5.	Clear and rebuild your containers by running:
+        ```bash
         ./vendor/bin/sail down
-        ./vendor/bin/sail up -d –build
+        ./vendor/bin/sail up -d --build
+        ```
 
 6.	Verify Typesense
+    ```bash
     curl -H "X-TYPESENSE-API-KEY: masterKey" http://localhost:8108/health
+    ```
+
+    This command checks the health of your Typesense server. If everything is set up correctly, it should return a response like:
+
+    ```json
+    {
+        "ok": true
+    }
+    ```
 
 7.	Proceed with Scout & Typesense Setup
     a.	Add Searchable trait to your models
-    b.	Run php artisan scout:import "App\\Models\\Product"
+    b.	Run the following command to import your model's data into Typesense:
+
+        ```bash
+        php artisan scout:import "App\\Models\\Product"
+        ```
     c.	Test a search:
+        ```php
         $results = App\Models\Product::search('shirt')->get();
 
+        foreach ($results as $product) {
+            echo $product->name . "\n";
+        }
+        ```
+
 8.	Cast Your Model’s ID to a String
+    ```php
     use Laravel\Scout\Searchable;
 
     class Product extends Model
@@ -44,16 +96,16 @@ Some installing steps:
         use Searchable;
 
         /**
-        * Ensure Scout uses a string ID.
-        */
+         * Ensure Scout uses a string ID.
+         */
         public function getScoutKey(): string
         {
             return (string) $this->getKey();
         }
 
         /**
-        * Prepare the data array for indexing.
-        */
+         * Prepare the data array for indexing.
+         */
         public function toSearchableArray(): array
         {
             $array = $this->toArray();
@@ -62,6 +114,7 @@ Some installing steps:
             return $array;
         }
     }
+    ```
 
 9.	Correct Your Typesense Schema in config/scout.php
 Under model-settings → App\Models\Product, define id as type string (or omit it entirely—Typesense will auto-handle id as a string):
@@ -87,7 +140,9 @@ Under model-settings → App\Models\Product, define id as type string (or omit i
 Aligning your schema’s id field with Typesense’s requirement avoids the malformed-request error
 
 10.	Flush and Reimport Your Index
+    ```bash
     php artisan config:clear
     php artisan scout:flush "App\\Models\\Product"
     php artisan scout:import "App\\Models\\Product"
+    ```
 
