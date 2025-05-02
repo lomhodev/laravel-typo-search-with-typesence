@@ -104,7 +104,7 @@ Some installing steps:
 ```
 
 8.	Cast Your Model’s ID to a String
-    ```php
+```php
     use Laravel\Scout\Searchable;
 
     class Product extends Model
@@ -130,7 +130,7 @@ Some installing steps:
             return $array;
         }
     }
-    ```
+```
 
 9.	Correct Your Typesense Schema in config/scout.php
 Under model-settings → App\Models\Product, define id as type string (or omit it entirely—Typesense will auto-handle id as a string):
