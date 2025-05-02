@@ -4,6 +4,9 @@ This is a testing project built on **Laravel 12** with a **MySQL** database, ful
 On the frontend, we use **jQuery** to render and search the product list, and—for simplicity—our `/products` route returns a Blade view directly instead of going through a conventional controller.  
 Feel free to clone, explore the Docker setup, and see how Scout + Typesense performs at scale!
 
+## Official Document
+[Laravel Scout Documentation](https://laravel.com/docs/12.x/scout)
+
 ## Getting Started
 
 ### Clone the Repository
