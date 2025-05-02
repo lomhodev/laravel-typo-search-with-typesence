@@ -86,6 +86,7 @@ Some installing steps:
 ```
 
 7.	Proceed with Scout & Typesense Setup
+    
     a. Add the `Searchable` trait to your models:
 
 ```php
