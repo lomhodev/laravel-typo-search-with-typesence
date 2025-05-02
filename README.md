@@ -76,7 +76,7 @@ Some installing steps:
     b.	Run the following command to import your model's data into Typesense:
 
         ```bash
-        php artisan scout:import "App\\Models\\Product"
+        php artisan scout:import "App\Models\Product"
         ```
     c.	Test a search:
         ```php
