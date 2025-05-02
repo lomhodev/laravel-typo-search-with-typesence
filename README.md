@@ -79,15 +79,29 @@ Some installing steps:
 
     This command checks the health of your Typesense server. If everything is set up correctly, it should return a response like:
 
-    ```json
+```json
     {
         "ok": true
     }
-    ```
+```
 
 7.	Proceed with Scout & Typesense Setup
-    a.	Add Searchable trait to your models
-    b.	Run the following command to import your model's data into Typesense:
+    a. Add the `Searchable` trait to your models:
+
+```php
+    use Laravel\Scout\Searchable;
+
+    class Product extends Model
+    {
+        use Searchable;
+    }
+```
+
+    b. Run the following command to import your model's data into Typesense:
+
+```bash
+    php artisan scout:import "App\Models\Product"
+```
 
 ```bash
     php artisan scout:import "App\Models\Product"
