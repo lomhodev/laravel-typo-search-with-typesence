@@ -89,9 +89,9 @@ Some installing steps:
     a.	Add Searchable trait to your models
     b.	Run the following command to import your model's data into Typesense:
 
-        ```bash
-        php artisan scout:import "App\Models\Product"
-        ```
+```bash
+    php artisan scout:import "App\Models\Product"
+```
 
     c.	Test a search:
 
