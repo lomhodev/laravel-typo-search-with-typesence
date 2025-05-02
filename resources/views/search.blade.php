@@ -62,6 +62,12 @@
                 loadData(query);
             });
 
+            $('#query').on('input', function () {
+                if (!$(this).val()) {
+                    loadData();
+                }
+            });
+
             // Handle clear button click
             $clearBtn.on('click', function () {
                 $('#query').val('');
