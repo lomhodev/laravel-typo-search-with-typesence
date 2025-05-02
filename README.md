@@ -84,24 +84,14 @@ This will create the necessary database tables and populate them with 1,000,000 
 ```
 
 4. Install Docker:
-        a. Download Docker from [https://docker.com](https://docker.com) and install it.
-        b. Verify the installation by running the following command in your terminal:
+
+    a. Download Docker from [https://docker.com](https://docker.com) and install it.
+    b. Verify the installation by running the following command in your terminal:
 
 ```bash
     docker --version
 ```
 
-        c. Once Docker is installed and running, navigate to your project directory and start the containers:
-
-```bash
-    ./vendor/bin/sail up -d
-```
-
-    a.	Download from https://docker.com and install
-    b.	Check and verify by opening a terminal and running the following command to ensure Docker is installed correctly:
-```bash
-    docker --version
-```
     c.	Once Docker is running, navigate back to your project and re-run:
 
 ```bash
