@@ -73,7 +73,7 @@ This will create the necessary database tables and populate them with 1,000,000 
 ```
 
 3.	Environment Variables & Startup
-    4. Set up environment variables in your `.env` file:
+    Set up environment variables in your `.env` file:
 
 ```env
     SCOUT_DRIVER=typesense
@@ -83,45 +83,43 @@ This will create the necessary database tables and populate them with 1,000,000 
     TYPESENSE_API_KEY=masterKey
 ```
 
-    5. Install Docker:
+4. Install Docker:
         a. Download Docker from [https://docker.com](https://docker.com) and install it.
         b. Verify the installation by running the following command in your terminal:
 
-            ```bash
-            docker --version
-            ```
+```bash
+    docker --version
+```
 
         c. Once Docker is installed and running, navigate to your project directory and start the containers:
 
-            ```bash
-            ./vendor/bin/sail up -d
-            ```
+```bash
+    ./vendor/bin/sail up -d
+```
 
     a.	Download from https://docker.com and install
     b.	Check and verify by opening a terminal and running the following command to ensure Docker is installed correctly:
-
-        ```bash
-        docker --version
-        ```
-
+```bash
+    docker --version
+```
     c.	Once Docker is running, navigate back to your project and re-run:
 
-        ```bash
+```bash
         ./vendor/bin/sail up -d
-        ```
+```
 
 5.	Clear and rebuild your containers by running:
 
-        ```bash
+```bash
         ./vendor/bin/sail down
         ./vendor/bin/sail up -d --build
-        ```
+```
 
 6.	Verify Typesense:
 
-    ```bash
+```bash
     curl -H "X-TYPESENSE-API-KEY: masterKey" http://localhost:8108/health
-    ```
+```
 
     This command checks the health of your Typesense server. If everything is set up correctly, it should return a response like:
 
