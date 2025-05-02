@@ -8,34 +8,34 @@ Some installing steps:
 1.	Install & Configure Sail
     a. Require Sail (if you haven’t already):
 
-        ```bash
-        composer require laravel/sail --dev
-        php artisan sail:install
-        ```
+```bash
+    composer require laravel/sail --dev
+    php artisan sail:install
+```
 
     b. Install Sail with the required services:
 
-        ```bash
-        php artisan sail:install --with=mysql,redis,typesense
-        ```
+```bash
+    php artisan sail:install --with=mysql,redis,typesense
+```
 
 2.	Publish & Customize the Dockerfile (Optional)
     a. Publish Sail's Docker configuration files to customize them:
 
-        ```bash
-        php artisan sail:publish
-        ```
+```bash
+    php artisan sail:publish
+```
 
 3.	Environment Variables & Startup
     4. Set up environment variables in your `.env` file:
 
-        ```env
-        SCOUT_DRIVER=typesense
-        TYPESENSE_HOST=typesense
-        TYPESENSE_PORT=8108
-        TYPESENSE_PROTOCOL=http
-        TYPESENSE_API_KEY=masterKey
-        ```
+```env
+    SCOUT_DRIVER=typesense
+    TYPESENSE_HOST=typesense
+    TYPESENSE_PORT=8108
+    TYPESENSE_PROTOCOL=http
+    TYPESENSE_API_KEY=masterKey
+```
 
     5. Install Docker:
         a. Download Docker from [https://docker.com](https://docker.com) and install it.
