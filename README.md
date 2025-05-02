@@ -65,7 +65,7 @@ Some installing steps:
 
 9.	Correct Your Typesense Schema in config/scout.php
 Under model-settings → App\Models\Product, define id as type string (or omit it entirely—Typesense will auto-handle id as a string):
-
+```php
 'model-settings' => [
     App\Models\Product::class => [
         'collection-schema' => [
@@ -82,6 +82,7 @@ Under model-settings → App\Models\Product, define id as type string (or omit i
         ],
     ],
 ],
+```
 
 Aligning your schema’s id field with Typesense’s requirement avoids the malformed-request error
 
