@@ -4,7 +4,31 @@ This is a testing project built on **Laravel 12** with a **MySQL** database, ful
 On the frontend, we use **jQuery** to render and search the product list, and—for simplicity—our `/products` route returns a Blade view directly instead of going through a conventional controller.  
 Feel free to clone, explore the Docker setup, and see how Scout + Typesense performs at scale!
 
-Below are steps that I have done for this project:
+## Getting Started
+
+### Clone the Repository
+To get started, clone this repository to your local machine:
+
+```bash
+git clone https://github.com/your-username/laravel-with-typesense.git
+cd laravel-with-typesense
+```
+
+### Install Laravel Dependencies
+Ensure you have Composer installed, then run the following command to install Laravel dependencies:
+
+```bash
+composer install
+```
+
+### Generate Application Key
+After installing dependencies, generate the application key:
+
+```bash
+php artisan key:generate
+```
+
+Below are steps that I have done for this project.:
 1.	Install & Configure Sail
     a. Require Sail (if you haven’t already):
 
