@@ -40,13 +40,13 @@ This will create the necessary database tables and populate them with 1,000,000 
 
 ### Below are steps that I did for this project.:
 
-## Install Scout
+#### Install Scout
 ```bash
     composer require laravel/scout
     php artisan vendor:publish --provider="Laravel\Scout\ScoutServiceProvider"
 ```
 
-## To get started using Typesense with Scout, install the Typesense PHP SDK via the Composer package manager:
+#### To get started using Typesense with Scout, install the Typesense PHP SDK via the Composer package manager:
 ```bash
     composer require typesense/typesense-php
 ```
