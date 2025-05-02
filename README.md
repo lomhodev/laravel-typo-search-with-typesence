@@ -40,7 +40,7 @@ Some installing steps:
     5. Install Docker:
         a. Download Docker from [https://docker.com](https://docker.com) and install it.
         b. Verify the installation by running the following command in your terminal:
-        
+
             ```bash
             docker --version
             ```
@@ -95,13 +95,13 @@ Some installing steps:
 
     c.	Test a search:
 
-        ```php
-        $results = App\Models\Product::search('shirt')->get();
+```php
+    $results = App\Models\Product::search('shirt')->get();
 
-        foreach ($results as $product) {
-            echo $product->name . "\n";
-        }
-        ```
+    foreach ($results as $product) {
+        echo $product->name . "\n";
+    }
+```
 
 8.	Cast Your Model’s ID to a String
     ```php
