@@ -64,25 +64,25 @@ Some installing steps:
     }
 
 9.	Correct Your Typesense Schema in config/scout.php
-    Under model-settings → App\Models\Product, define id as type string (or omit it entirely—Typesense will auto-handle id as a string):
-    php
-    CopyEdit
-    'model-settings' => [
-        App\Models\Product::class => [
-            'collection-schema' => [
-                'name' => 'products',
-                'fields' => [
-                    ['name' => 'id',   'type' => 'string'],      // ← must be string
-                    ['name' => 'name', 'type' => 'string'],
-                    ['name' => 'description', 'type' => 'string'],
-                ],
-                'default_sorting_field' => 'name',
+Under model-settings → App\Models\Product, define id as type string (or omit it entirely—Typesense will auto-handle id as a string):
+
+'model-settings' => [
+    App\Models\Product::class => [
+        'collection-schema' => [
+            'name' => 'products',
+            'fields' => [
+                ['name' => 'id',   'type' => 'string'],      // ← must be string
+                ['name' => 'name', 'type' => 'string'],
+                ['name' => 'description', 'type' => 'string'],
             ],
-            'search-parameters' => [
-                'query_by' => 'name,description',
-            ],
+            'default_sorting_field' => 'name',
+        ],
+        'search-parameters' => [
+            'query_by' => 'name,description',
         ],
     ],
+],
+Aligning your schema’s id field with Typesense’s requirement avoids the malformed-request error
 
 10.	Flush and Reimport Your Index
     php artisan config:clear
