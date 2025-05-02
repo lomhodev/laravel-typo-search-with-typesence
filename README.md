@@ -36,15 +36,6 @@ php artisan db:seed
 
 This will create the necessary database tables and populate them with 1,000,000 Product records for testing.
 
-### Run seeding 
-To seed the database with additional data, run the following command:
-
-```bash
-    php artisan db:seed 
-```
-
-This will execute the `ProductSeeder` class, which is responsible for populating the database with sample product data.
-
 -----------------------------------------------------------
 
 ### Below are steps that I did for this project.:
