@@ -1,0 +1,28 @@
+How to setup Typesense in DO droplet
+1.	Install typesense
+    curl -O https://dl.typesense.org/releases/28.0/typesense-server-28.0-amd64.deb
+    sudo apt install ./typesense-server-28.0-amd64.deb
+2.	Enable & start the service
+    sudo systemctl enable typesense-server.service
+    sudo systemctl start  typesense-server.service
+3.	Verify it’s running
+    sudo systemctl status typesense-server.service
+    # should show “active (running)”
+
+    # Check health endpoint:
+    curl -I http://localhost:8108/health
+    # → HTTP/1.1 200 OK
+4.	Open port 8108 in the firewall (so only your app server can reach it) (optional)
+    sudo ufw allow from YOUR_APP_SERVER_IP to any port 8108 proto tcp
+5.	Grab the API key from your Typesense INI
+    grep '^api-key' /etc/typesense/typesense-server.ini
+6.	Hook up Laravel Scout in .env
+    SCOUT_DRIVER=typesense
+    TYPESENSE_HOST=YOUR_DROPLET_IP
+    TYPESENSE_PORT=8108
+    TYPESENSE_PROTOCOL=http
+    TYPESENSE_API_KEY=api-key
+
+7.	Adding the DigitalOcean Monitoring Repo (if needed)curl -sSL https://repos.insights.digitalocean.com/install.sh | sudo bash
+    sudo apt update
+    sudo apt install do-agent
